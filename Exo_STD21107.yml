@@ -1,0 +1,377 @@
+openapi: 3.0.1
+info:
+  title: STD21107
+  description: First API creation
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/heilova31/std-21107/V1.0.0
+  - url: https://STD21107.io/
+tags:
+  - name: Students
+    description: Information about students
+  - name: Courses
+    description: Information about courses
+  - name: Groups
+    description: Information about groups
+paths:
+  /students:
+    post:
+      tags:
+        - Students
+      summary: Adds a new student
+      operationId: addStudent
+      requestBody:
+        description: Student object that needs to be added to the database
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Student"
+        required: true
+      responses:
+        200:
+          description: Student created successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NewStudent"
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error400"
+    get:
+      tags:
+        - Students
+      summary: Get a list of students
+      operationId: getStudents
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+      responses:
+        200:
+          description: List of students order by id
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NewStudent"
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error400"
+  /students/{id}:
+    get:
+      tags:
+        - Students
+      summary: Get the specified student
+      operationId: getStudent
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: Information about student with specified id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NewStudent"
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error400"
+    delete:
+      tags:
+        - Students
+      summary: Delete the specified student
+      operationId: deleteStudent
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: Student deleted successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Returns the id of the deleted student"
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error400"
+    put:
+      tags:
+        - Students
+      summary: Modify the specified student
+      operationId: modifyStudent
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: integer
+      requestBody:
+        description: everything about student except id
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewStudent"
+      responses:
+        200:
+          description: "success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Student"
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error400"
+    patch:
+      tags:
+        - Students
+      description: |
+        Performs update on one of or combination of : 
+        * Name
+        * Group
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: partial info about the student
+        content: {}
+
+      responses:
+        200:
+          description: "success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Student"
+
+  /courses:
+    get:
+      tags:
+        - Courses
+      summary: Get a list of courses
+      operationId: getCourses
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+          required: true
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: List Course
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Course"
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error400"
+    post:
+      tags:
+        - Courses
+      summary: Create new courses
+      requestBody:
+        description: Course
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewCourse"
+      responses:
+        200:
+          description: course
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Course"
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error400"
+  /courses/{id}:
+    get:
+      tags:
+        - Courses
+      summary: Get course number id
+      operationId: getCourseID
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Course"
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error400"
+
+  /groups:
+    get:
+      tags:
+        - Groups
+      summary: Get a list of Groups
+      operationId: getGroups
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+          required: true
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: List of Groups
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Course"
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error400"
+    
+  /groups/{id}:
+    get:
+      tags:
+        - Groups
+      summary: Get group number id
+      operationId: getGroupID
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Course"
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error400"
+
+components:
+  schemas:
+    
+    Student:
+      type: object
+      properties:
+        name:
+          type: string
+        group:
+          type: string
+
+    NewStudent:
+      type: object
+      properties:
+        id:
+          type: integer
+      allOf:
+        - $ref: "#/components/schemas/Student"
+
+    Course:
+      allOf:
+        - $ref: "#/components/schemas/NewCourse"
+      type: object
+      properties:
+        id:
+          type: integer
+    NewCourse:
+      type: object
+      properties:
+        name:
+          type: string
+        teacher:
+          type: string
+        createdDatetime:
+          type: string
+          format: date
+          example: "2022-08-02"
+    Error400:
+      type: object
+      properties:
+        type:
+          type: string
+          #example: "BadRequestException"
+        message:
+          type: string
+          #example: "Error"
